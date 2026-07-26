@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Waxahachie, Texas Interactive Street Map</title>
+<title>Waxahachie, Texas Street Map</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,20 +10,17 @@
 href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
-html,body{
-    margin:0;
-    height:100%;
+html, body {
+    margin: 0;
+    height: 100%;
 }
 
-#map{
-    width:100%;
-    height:100%;
-}
-
-.leaflet-control-layers{
-    font-size:15px;
+#map {
+    width: 100%;
+    height: 100%;
 }
 </style>
+
 </head>
 
 <body>
@@ -34,40 +31,44 @@ html,body{
 
 <script>
 
-// Center of Waxahachie
-var map = L.map('map',{
-    center:[32.3865,-96.8483],
-    zoom:13
+// Waxahachie, TX
+var map = L.map('map', {
+    center: [32.3865, -96.8483],
+    zoom: 13
 });
 
-// High-contrast streets WITHOUT labels
+// Street layer without names
 var streets = L.tileLayer(
 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
 {
-    attribution:'© OpenStreetMap © CARTO',
-    maxZoom:20
-}
-).addTo(map);
+    maxZoom: 20,
+    attribution:
+    '&copy; OpenStreetMap &copy; CARTO'
+}).addTo(map);
 
-// Labels only
-var labels = L.tileLayer(
+
+// Street name layer
+var streetNames = L.tileLayer(
 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png',
 {
-    attribution:'© OpenStreetMap © CARTO',
-    pane:'overlayPane',
-    maxZoom:20
-}
-).addTo(map);
-
-// Toggle
-L.control.layers(
-{},
-{
-    "Street Names": labels
-},
-{
-    collapsed:false
+    maxZoom: 20,
+    attribution:
+    '&copy; OpenStreetMap &copy; CARTO'
 }).addTo(map);
+
+
+// Toggle control
+var overlays = {
+    "Street Names": streetNames
+};
+
+L.control.layers(null, overlays, {
+    collapsed: false
+}).addTo(map);
+
+
+// Zoom control
+L.control.scale().addTo(map);
 
 </script>
 
